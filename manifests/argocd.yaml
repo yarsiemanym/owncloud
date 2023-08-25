@@ -13,9 +13,6 @@ spec:
   destinations:
     - namespace: owncloud
       server: https://kubernetes.default.svc
-  clusterResourceWhitelist:
-  - group: ''
-    kind: Namespace
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -23,7 +20,7 @@ metadata:
   name: owncloud
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -48,7 +45,7 @@ metadata:
   name: owncloud-redis
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -78,7 +75,7 @@ metadata:
   name: owncloud-mariadb
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
