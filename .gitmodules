@@ -1,3 +1,0 @@
-[submodule "helm/charts/owncloud"]
-	path = helm/charts/owncloud
-	url = https://github.com/vnc-biz/owncloud.git
