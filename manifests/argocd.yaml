@@ -9,15 +9,18 @@ spec:
   description: owncloud and supporting infrastructure.
   sourceRepos:
     - https://github.com/yarsiemanym/owncloud.git
+    - https://charts.bitnami.com/bitnami
   destinations:
     - namespace: owncloud
-      name: in-cluster
+      server: https://kubernetes.default.svc
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: owncloud
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -33,7 +36,7 @@ spec:
     directory:
       exclude: argocd.yaml
   destination:
-    server: "https://kubernetes.default.svc"
+    server: https://kubernetes.default.svc
     namespace: owncloud
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -41,6 +44,8 @@ kind: Application
 metadata:
   name: owncloud-redis
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -54,14 +59,14 @@ spec:
     chart: redis
     targetRevision: 17.17.1
     helm:
-      valuesObject:  
+      valuesObject:
         architecture: standalone
         metrics:
           serviceMonitor:
             enabled: true
             namespace: observability
   destination:
-    server: "https://kubernetes.default.svc"
+    server: https://kubernetes.default.svc
     namespace: owncloud
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -69,6 +74,8 @@ kind: Application
 metadata:
   name: owncloud-mariadb
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -82,7 +89,7 @@ spec:
     chart: mariadb
     targetRevision: 13.1.1
     helm:
-      valuesObject:  
+      valuesObject:
         auth:
           existingSecret: mariadb
           database: owncloud
