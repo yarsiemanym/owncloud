@@ -68,6 +68,9 @@ spec:
           serviceMonitor:
             enabled: true
             namespace: observability
+        master:
+          startupProbe:
+            enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: owncloud
@@ -104,6 +107,9 @@ spec:
             namespace: observability
             labels:
               release: observability
+        primary:
+          startupProbe:
+            enabled: true
   destination:
     server: "https://kubernetes.default.svc"
     namespace: owncloud
