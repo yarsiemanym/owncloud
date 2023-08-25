@@ -1,0 +1,99 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: owncloud
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: owncloud and supporting infrastructure.
+  sourceRepos:
+    - https://github.com/yarsiemanym/owncloud.git
+  destinations:
+    - namespace: owncloud
+      name: in-cluster
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: owncloud
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: owncloud
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://github.com/yarsiemanym/owncloud.git
+    targetRevision: HEAD
+    path: manifests
+    directory:
+      exclude: argocd.yaml
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: owncloud
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: owncloud-redis
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: owncloud
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: redis
+    targetRevision: 17.17.1
+    helm:
+      valuesObject:  
+        architecture: standalone
+        metrics:
+          serviceMonitor:
+            enabled: true
+            namespace: observability
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: owncloud
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: owncloud-mariadb
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: owncloud
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: mariadb
+    targetRevision: 13.1.1
+    helm:
+      valuesObject:  
+        auth:
+          existingSecret: mariadb
+          database: owncloud
+          username: owncloud
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+            namespace: observability
+            labels:
+              release: observability
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: owncloud

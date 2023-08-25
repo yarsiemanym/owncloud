@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: owncloud
+  namespace: owncloud
+spec:
+  tls:
+    - hosts:
+        - owncloud.home.saltrelli.com
+      secretName: owncloud-cert
+  rules:
+    - host: owncloud.home.saltrelli.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: owncloud
+              servicePort: 80
