@@ -30,10 +30,7 @@ spec:
           - name: OWNCLOUD_DATABASE_NAME
             value: owncloud
           - name: OWNCLOUD_DATABASE_USER
-            valueFrom:
-              secretKeyRef:
-                name: mariadb
-                key: mariadb-username
+            value: owncloud
           - name: OWNCLOUD_DATABASE_PASSWORD
             valueFrom:
               secretKeyRef:

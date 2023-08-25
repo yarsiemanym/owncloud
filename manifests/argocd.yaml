@@ -96,6 +96,7 @@ spec:
         auth:
           existingSecret: mariadb
           database: owncloud
+          username: owncloud
         metrics:
           enabled: true
           serviceMonitor:
