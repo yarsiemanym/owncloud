@@ -105,6 +105,11 @@ spec:
             namespace: observability
             labels:
               release: observability
+        primary:
+          livenessProbe:
+            initialDelaySeconds: 60
+          readinessProbe:
+            initialDelaySeconds: 60
   destination:
     server: "https://kubernetes.default.svc"
     namespace: owncloud
