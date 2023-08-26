@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: owncloud-cert
+  namespace: owncloud
+spec:
+  secretName: owncloud-cert
+  commonName: owncloud.home.saltrelli.com
+  dnsNames:
+    - owncloud.home.saltrelli.com
+  subject:
+    organizations:
+      - "Home"
+    organizationalUnits:
+      - "IT"
+  issuerRef:
+    name: acme-cluster-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+  privateKey:
+    algorithm: RSA
+    size: 4096
