@@ -22,7 +22,10 @@ spec:
           - name: OWNCLOUD_ADMIN_USERNAME
             value: admin
           - name: OWNCLOUD_ADMIN_PASSWORD
-            value: ChangeMe123!
+            valueFrom:
+              secretKeyRef:
+                name: owncloud
+                key: admin-password
           - name: MARIADB_HOST
             value: mariadb
           - name: MARIADB_PORT_NUMBER
