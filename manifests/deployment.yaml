@@ -42,7 +42,7 @@ spec:
           - name: OWNCLOUD_REDIS_ENABLED
             value: "true"
           - name: OWNCLOUD_REDIS_HOST
-            value: owncloud-redis
+            value: owncloud-redis-master
           ports:
             - name: http
               containerPort: 8080
