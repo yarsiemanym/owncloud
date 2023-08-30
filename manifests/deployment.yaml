@@ -27,7 +27,7 @@ spec:
                 name: owncloud
                 key: admin-password
           - name: OWNCLOUD_DB_TYPE
-            value: postgres
+            value: pgsql
           - name: OWNCLOUD_DB_HOST
             value: owncloud-postgresql
           - name: OWNCLOUD_DATABASE_NAME
