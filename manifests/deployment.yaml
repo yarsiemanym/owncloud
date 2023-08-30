@@ -25,11 +25,11 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: owncloud
-                key: admin-password
-          - name: MARIADB_HOST
-            value: mariadb
-          - name: MARIADB_PORT_NUMBER
-            value: "3306"
+                key: rootPassword
+          - name: OWNCLOUD_DB_TYPE
+            value: postgresql
+          - name: OWNCLOUD_DB_HOST
+            value: owncloud-postgresql
           - name: OWNCLOUD_DATABASE_NAME
             value: owncloud
           - name: OWNCLOUD_DATABASE_USER
@@ -37,8 +37,8 @@ spec:
           - name: OWNCLOUD_DATABASE_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mariadb
-                key: mariadb-password
+                name: postgresql
+                key: password
           - name: OWNCLOUD_REDIS_ENABLED
             value: "true"
           - name: OWNCLOUD_REDIS_HOST
