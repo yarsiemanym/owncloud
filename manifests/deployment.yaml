@@ -30,11 +30,11 @@ spec:
             value: pgsql
           - name: OWNCLOUD_DB_HOST
             value: owncloud-postgresql
-          - name: OWNCLOUD_DATABASE_NAME
+          - name: OWNCLOUD_DB_NAME
             value: owncloud
-          - name: OWNCLOUD_DATABASE_USER
+          - name: OWNCLOUD_DB_USERNAME
             value: owncloud
-          - name: OWNCLOUD_DATABASE_PASSWORD
+          - name: OWNCLOUD_DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: postgresql
