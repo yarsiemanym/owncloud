@@ -25,7 +25,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: owncloud
-                key: rootPassword
+                key: admin-password
           - name: OWNCLOUD_DB_TYPE
             value: postgresql
           - name: OWNCLOUD_DB_HOST
