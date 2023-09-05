@@ -33,12 +33,12 @@ spec:
           - name: OWNCLOUD_DB_NAME
             value: owncloud
           - name: OWNCLOUD_DB_USERNAME
-            value: owncloud
+            value: postgres
           - name: OWNCLOUD_DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: postgresql
-                key: password
+                key: postgres-password
           - name: OWNCLOUD_REDIS_ENABLED
             value: "true"
           - name: OWNCLOUD_REDIS_HOST
