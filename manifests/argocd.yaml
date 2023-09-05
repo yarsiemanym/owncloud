@@ -20,24 +20,18 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: owncloud
+  name: owncloud-secrets
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: owncloud
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
   source:
     repoURL: https://github.com/yarsiemanym/owncloud.git
     targetRevision: HEAD
     path: manifests
     directory:
-      exclude: argocd.yaml
+      include: "{namespace.yaml,secrets.yaml}"
   destination:
     server: https://kubernetes.default.svc
     namespace: owncloud
@@ -47,27 +41,27 @@ kind: Application
 metadata:
   name: owncloud-redis
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: owncloud
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: redis
-    targetRevision: 17.17.1
+    targetRevision: 18.0.0
     helm:
+      releaseName: redis
       valuesObject:
         architecture: standalone
+        auth:
+          enabled: false
         metrics:
+          enabled: true
           serviceMonitor:
             enabled: true
-            namespace: observability
+            namespace: owncloud
+            labels:
+              release: owncloud
   destination:
     server: https://kubernetes.default.svc
     namespace: owncloud
@@ -75,36 +69,50 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: owncloud-mariadb
+  name: owncloud-postgresql
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: owncloud
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
   source:
     repoURL: https://charts.bitnami.com/bitnami
-    chart: mariadb
-    targetRevision: 13.1.1
+    chart: postgresql
+    targetRevision: 12.10.0
     helm:
+      releaseName: postgresql
       valuesObject:
         architecture: standalone
         auth:
-          existingSecret: mariadb
+          existingSecret: postgresql
           database: owncloud
           username: owncloud
         metrics:
           enabled: true
           serviceMonitor:
             enabled: true
-            namespace: observability
+            namespace: owncloud
             labels:
-              release: observability
+              release: owncloud
   destination:
-    server: "https://kubernetes.default.svc"
+    server: https://kubernetes.default.svc
+    namespace: owncloud
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: owncloud
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: owncloud
+  source:
+    repoURL: https://github.com/yarsiemanym/owncloud.git
+    targetRevision: HEAD
+    path: manifests
+    directory:
+      exclude: "{namespace.yaml,secrets.yaml,argocd.yaml}"
+  destination:
+    server: https://kubernetes.default.svc
     namespace: owncloud
