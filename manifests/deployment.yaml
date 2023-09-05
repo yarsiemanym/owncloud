@@ -33,7 +33,7 @@ spec:
           - name: OWNCLOUD_DB_NAME
             value: owncloud
           - name: OWNCLOUD_DB_USERNAME
-            value: postgres
+            value: owncloud
           - name: OWNCLOUD_DB_PASSWORD
             valueFrom:
               secretKeyRef:
