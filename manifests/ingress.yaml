@@ -5,7 +5,7 @@ metadata:
   namespace: owncloud
   annotations:
     nginx.org/client-max-body-size: 512m
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
 spec:
   tls:
     - hosts:
