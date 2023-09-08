@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: owncloud
-          image: owncloud/server:10.10
+          image: owncloud/server:10.12.2
           env:
           - name: OWNCLOUD_DOMAIN
             value: owncloud.home.saltrelli.com
