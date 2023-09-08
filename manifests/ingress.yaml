@@ -5,8 +5,8 @@ metadata:
   namespace: owncloud
   annotations:
     nginx.org/client-max-body-size: 512m
-    nginx.org/proxy-read-timeout: "3600"
-    nginx.org/proxy-send-timeout: "3600"
+    nginx.org/proxy-read-timeout: "300"
+    nginx.org/proxy-send-timeout: "300"
 spec:
   tls:
     - hosts:
