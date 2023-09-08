@@ -4,7 +4,7 @@ metadata:
   name: owncloud
   namespace: owncloud
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 512m
+    nginx.org/client-max-body-size: 512m
 spec:
   tls:
     - hosts:
