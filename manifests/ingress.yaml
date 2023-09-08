@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: owncloud
   namespace: owncloud
+  annotation:
+    nginx.ingress.kubernetes.io/proxy-body-size: 512m
 spec:
   tls:
     - hosts:
